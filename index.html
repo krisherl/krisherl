@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,6 +31,18 @@
     .logo-animate:hover {
       transform: scale(1.05) rotate(1deg);
     }
+    .divider {
+      height: 3px;
+      background: linear-gradient(to right, transparent, #7f5af0, #00f0ff, transparent);
+      border-radius: 9999px;
+      margin: 3rem auto;
+      width: 60%;
+      animation: pulse-divider 3s infinite ease-in-out;
+    }
+    @keyframes pulse-divider {
+      0%, 100% { opacity: 0.4; transform: scaleX(1); }
+      50% { opacity: 1; transform: scaleX(1.05); }
+    }
   </style>
 </head>
 <body class="text-white font-sans">
@@ -49,6 +60,9 @@
     <a href="#projects" class="mt-8 inline-block px-6 py-3 border border-cyan-400 text-cyan-400 rounded hover:bg-cyan-400 hover:text-black transition">Explore My Work</a>
   </section>
 
+  <!-- Animated Divider -->
+  <div class="divider"></div>
+
   <!-- About Section -->
   <section class="py-24 px-6 bg-gradient-to-b from-black to-purple-900">
     <div class="max-w-3xl mx-auto fade-in" id="about">
@@ -57,26 +71,32 @@
     </div>
   </section>
 
+  <!-- Animated Divider -->
+  <div class="divider"></div>
+
   <!-- Projects Section -->
   <section class="py-24 px-6 bg-black" id="projects">
     <div class="max-w-5xl mx-auto fade-in">
       <h2 class="text-3xl uppercase font-bold tracking-wide text-purple-400 mb-10">Featured Projects</h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="bg-gray-900 p-6 rounded-xl border border-gray-700 hover:scale-105 transition">
+        <div class="bg-gray-900 p-6 rounded-xl border border-gray-700 hover:scale-105 transition duration-500 ease-in-out">
           <h3 class="text-xl font-semibold text-cyan-300">Clothing Line</h3>
           <p class="text-sm text-gray-400 mt-2">Streetwear meets storytelling — bold cuts, loud thoughts.</p>
         </div>
-        <div class="bg-gray-900 p-6 rounded-xl border border-gray-700 hover:scale-105 transition">
+        <div class="bg-gray-900 p-6 rounded-xl border border-gray-700 hover:scale-105 transition duration-500 ease-in-out">
           <h3 class="text-xl font-semibold text-cyan-300">Book Projects</h3>
           <p class="text-sm text-gray-400 mt-2">Fantasy, justice, grief, rebellion — coming soon.</p>
         </div>
-        <div class="bg-gray-900 p-6 rounded-xl border border-gray-700 hover:scale-105 transition">
+        <div class="bg-gray-900 p-6 rounded-xl border border-gray-700 hover:scale-105 transition duration-500 ease-in-out">
           <h3 class="text-xl font-semibold text-cyan-300">Marketing & SEO</h3>
           <p class="text-sm text-gray-400 mt-2">Digital strategies that actually work. And look good.</p>
         </div>
       </div>
     </div>
   </section>
+
+  <!-- Animated Divider -->
+  <div class="divider"></div>
 
   <!-- Contact CTA -->
   <section class="py-24 px-6 bg-gradient-to-b from-purple-900 to-black">
@@ -98,5 +118,12 @@
     }, { threshold: 0.1 });
     fadeEls.forEach(el => observer.observe(el));
   </script>
+
+  <!-- Footer -->
+  <footer class="text-center text-sm text-gray-500 py-8 border-t border-gray-800 bg-black">
+    <p>&copy; 2024 Krisherl. All rights reserved.</p>
+    <p class="mt-1">All content and designs are the intellectual property of Krisherl and may not be reproduced or distributed without permission.</p>
+  </footer>
+
 </body>
 </html>
