@@ -1,80 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KRISHERL</title>
-    <link rel="stylesheet" href="styles.css">
-    <script defer src="scripts/dogs.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KRISHERL</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script defer src="scripts/dogs.js"></script>
 </head>
 <body>
-    <!-- Hero Section -->
-    <section id="hero" class="fade-in">
-        <img src="images/Krisherl_Logo_Final.png" alt="Krisherl Logo" id="logo">
-        <h1 id="title-gradient">KRISHERL</h1>
-        <div id="social-links">
-            <a href="https://instagram.com/krisherl" target="_blank"><img src="images/social-instagram.png" alt="Instagram"></a>
-            <a href="https://tiktok.com/@krisherl" target="_blank"><img src="images/social-tiktok.png" alt="TikTok"></a>
-            <a href="https://facebook.com/krisherl" target="_blank"><img src="images/social-facebook.png" alt="Facebook"></a>
+
+  <!-- Hero Section -->
+  <section id="hero" class="fade-in">
+    <div class="container">
+      <img src="images/Krisherl_Logo_Final.png" alt="Krisherl Logo" id="logo" />
+      <h1 id="title-gradient">KRISHERL</h1>
+      <div id="social-links">
+        <a href="https://instagram.com/krisherl" target="_blank"><img src="images/social-instagram.png" alt="Instagram" /></a>
+        <a href="https://tiktok.com/@krisherl" target="_blank"><img src="images/social-tiktok.png" alt="TikTok" /></a>
+        <a href="https://facebook.com/krisherl" target="_blank"><img src="images/social-facebook.png" alt="Facebook" /></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Adoptable Dogs Section -->
+  <section id="dogs" class="fade-in">
+    <div class="container">
+      <h2>ADOPTABLE DOGS</h2>
+      <div id="dog-grid"></div>
+      <button id="toggle-archive" class="button">View Past Dogs</button>
+    </div>
+  </section>
+
+  <!-- Upcoming Projects Section -->
+  <section id="projects" class="fade-in">
+    <div class="container">
+      <h2>UPCOMING PROJECTS</h2>
+      <div id="projects-grid">
+        <div class="project coming-soon">
+          <img src="images/coming-soon-book.png" alt="Book Project" />
+          <p>BOOK PROJECT</p>
         </div>
-    </section>
-
-    <!-- Adoptable Dogs Section -->
-    <section id="dogs" class="fade-in">
-        <h2>ADOPTABLE DOGS</h2>
-        <div id="dog-grid"></div>
-        <button id="toggle-archive" class="button">View Past Dogs</button>
-    </section>
-
-    <!-- Upcoming Projects Section -->
-    <section id="projects" class="fade-in">
-        <h2>UPCOMING PROJECTS</h2>
-        <div id="projects-grid">
-            <div class="project coming-soon">
-                <img src="images/coming-soon-book.png" alt="Book Project">
-                <p>BOOK PROJECT</p>
-            </div>
-            <div class="project coming-soon">
-                <img src="images/coming-soon-client.png" alt="Client Work">
-                <p>CLIENT WORK</p>
-            </div>
-            <div class="project coming-soon">
-                <img src="images/coming-soon-shop.png" alt="Online Shop">
-                <p>ONLINE SHOP</p>
-            </div>
+        <div class="project coming-soon">
+          <img src="images/coming-soon-client.png" alt="Client Work" />
+          <p>CLIENT WORK</p>
         </div>
-    </section>
+        <div class="project coming-soon">
+          <img src="images/coming-soon-shop.png" alt="Online Shop" />
+          <p>ONLINE SHOP</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="fade-in">
-        <h2>LET'S CONNECT</h2>
-        <p>Email me directly at <a href="mailto:kris@krisherl.com">kris@krisherl.com</a></p>
-    </section>
+  <!-- Contact Section -->
+  <section id="contact" class="fade-in">
+    <div class="container">
+      <h2>LET'S CONNECT</h2>
+      <p>Email me directly at <a href="mailto:kris@krisherl.com">kris@krisherl.com</a></p>
+    </div>
+  </section>
 
-    <!-- Footer -->
-    <footer>
-        <p>© 2025 KRISHERL. All rights reserved. | <a href="mailto:kris@krisherl.com">kris@krisherl.com</a> | Las Vegas, NV</p>
-    </footer>
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 KRISHERL. All rights reserved. | <a href="mailto:kris@krisherl.com">kris@krisherl.com</a> | Las Vegas, NV</p>
+  </footer>
 
-    <script>
+  <script>
     // Simple fade-in effect on scroll
     const faders = document.querySelectorAll('.fade-in');
-    const appearOptions = {
-      threshold: 0.1
-    };
+    const appearOptions = { threshold: 0.1 };
     const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
       entries.forEach(entry => {
-        if (!entry.isIntersecting) {
-          return;
-        } else {
-          entry.target.classList.add('appear');
-          appearOnScroll.unobserve(entry.target);
-        }
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('appear');
+        appearOnScroll.unobserve(entry.target);
       });
     }, appearOptions);
     faders.forEach(fader => {
       appearOnScroll.observe(fader);
     });
-    </script>
+  </script>
+
 </body>
 </html>
