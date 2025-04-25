@@ -20,27 +20,27 @@ body {
 
 /* Hero Section */
 #hero {
-    padding: 80px 20px 40px;
+    padding: 60px 20px 40px; /* Reduced padding to bring everything closer */
     text-align: center; /* Ensures content is centered */
 }
 
 #logo {
     width: 150px;
-    margin-bottom: 10px;
+    margin-bottom: 10px; /* Reduced bottom margin */
     display: block; /* Ensures logo is centered */
     margin-left: auto;
     margin-right: auto;
 }
 
 #title-gradient-image {
-    width: 70%; /* Adjusted for proper scaling of the title */
+    width: 70%; /* Adjusted size of title */
     max-width: 600px;
-    margin-top: 10px; /* Reduce spacing between logo and title */
+    margin-top: 10px; /* Reduced spacing between logo and title */
 }
 
 #hero-subheadline {
     font-size: 1.2rem;
-    margin-top: 10px;
+    margin-top: 10px; /* Reduced margin for closer positioning */
     color: white;
     opacity: 0.7;
     letter-spacing: 1.5px;
