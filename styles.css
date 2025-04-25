@@ -1,7 +1,7 @@
 /* Global Styles */
 body {
     background: url('images/background-texture.png') no-repeat center center fixed;
-    background-size: cover;
+    background-size: cover; /* Keeps it from stretching and pixelating */
     background-color: #000; /* Fallback if image fails */
     color: white;
     font-family: 'Montserrat', sans-serif;
@@ -19,7 +19,7 @@ body {
 
 /* Hero Section */
 #hero {
-    padding: 60px 20px 40px;
+    padding: 80px 20px 40px;
     text-align: center; /* Ensures content is centered */
 }
 
@@ -29,9 +29,9 @@ body {
 }
 
 #title-gradient-image {
-    width: 70%; /* Adjusted for proper scaling of the title */
+    width: 70%; /* Adjusted size of title */
     max-width: 600px;
-    margin-top: 10px;
+    margin-top: 10px; /* Reduce spacing between logo and title */
 }
 
 #hero-subheadline {
@@ -41,6 +41,21 @@ body {
     opacity: 0.7;
     letter-spacing: 1.5px;
     text-transform: uppercase;
+}
+
+/* Section Dividers */
+section {
+    margin-bottom: 50px;
+    position: relative;
+}
+
+section::after {
+    content: '';
+    display: block;
+    width: 80%;
+    height: 1px;
+    background-color: #a855f7; /* Gradient border color */
+    margin: 30px auto 0;
 }
 
 /* Social Links */
