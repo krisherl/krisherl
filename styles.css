@@ -33,8 +33,17 @@ body {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    text-fill-color: transparent;
+    color: transparent;
     margin-top: 20px;
+}
+
+/* Hero Subheadline */
+#hero-subheadline {
+    font-size: 1.2rem;
+    margin-top: 10px;
+    color: white;
+    opacity: 0.7;
+    letter-spacing: 1px;
 }
 
 /* Social Links */
@@ -54,24 +63,26 @@ body {
     opacity: 0.8;
 }
 
-/* Contact Me Button Under Socials */
+/* Contact Me Button */
 #contact-button {
     margin-top: 30px;
 }
-.button-gradient {
+.button-outline {
     display: inline-block;
-    background: linear-gradient(to right, #a855f7, #06b6d4);
-    color: white;
+    border: 2px solid #a855f7;
+    color: #a855f7;
     padding: 12px 30px;
-    border-radius: 30px;
     font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    border-radius: 4px; /* Slightly rectangular, no curves */
+    background: transparent;
     text-decoration: none;
-    transition: background 0.3s ease, transform 0.3s ease;
-    font-size: 1rem;
+    transition: background 0.3s ease, color 0.3s ease;
 }
-.button-gradient:hover {
-    transform: scale(1.05);
-    opacity: 0.9;
+.button-outline:hover {
+    background: #a855f7;
+    color: white;
 }
 
 /* Adoptable Dogs Section */
