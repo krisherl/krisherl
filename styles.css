@@ -1,1 +1,174 @@
-/* updated styles with gradient title and background overlay */
+/* Global Styles */
+body {
+    background: url('images/background-texture.png') no-repeat center center fixed;
+    background-size: cover;
+    background-color: #000; /* fallback */
+    color: white;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Hero Section */
+#hero {
+    text-align: center;
+    padding: 80px 20px 40px;
+}
+
+#logo {
+    width: 120px;
+    animation: fadeIn 1s ease-out forwards;
+}
+
+#title-gradient {
+    font-size: 3.5rem;
+    font-weight: 800;
+    background: linear-gradient(to right, #a855f7, #06b6d4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+    margin: 20px 0;
+}
+
+/* Social Links */
+#social-links a img {
+    width: 30px;
+    margin: 0 10px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+#social-links a img:hover {
+    transform: scale(1.2);
+    opacity: 0.8;
+}
+
+/* Adoptable Dogs Section */
+#dogs {
+    position: relative;
+    padding: 80px 20px;
+    background: rgba(0, 0, 0, 0.6); /* subtle overlay for legibility */
+}
+
+#dogs h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+}
+
+#dog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+.dog-card {
+    position: relative;
+    background: white;
+    color: black;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.dog-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+}
+
+/* Popup inside Dog Card */
+.popup {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    position: absolute;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.95);
+    width: 100%;
+    padding: 10px;
+    font-size: 0.9rem;
+    text-align: center;
+}
+.dog-card:hover .popup {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Dog Badge */
+.badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: linear-gradient(to right, #a855f7, #06b6d4);
+    color: white;
+    font-weight: bold;
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 12px;
+    box-shadow: 0 0 8px rgba(0,0,0,0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* Projects Section */
+#projects {
+    text-align: center;
+    padding: 80px 20px;
+}
+
+#projects h2 {
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+}
+
+#projects-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+}
+
+.project img {
+    width: 200px;
+    border-radius: 16px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.project img:hover {
+    transform: scale(1.1);
+    opacity: 0.9;
+}
+
+/* Contact Section */
+#contact {
+    text-align: center;
+    padding: 80px 20px;
+}
+
+#contact h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+/* Footer */
+footer {
+    background: #000;
+    text-align: center;
+    padding: 20px;
+    font-size: 0.8rem;
+    color: gray;
+}
+
+footer a {
+    color: gray;
+    text-decoration: none;
+}
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}

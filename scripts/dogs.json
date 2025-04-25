@@ -1,1 +1,35 @@
-[]
+[
+    {
+        "name": "Luna",
+        "location": "Los Angeles, CA",
+        "organization": "Forever Paws Rescue",
+        "age": "2 years",
+        "gender": "Female",
+        "breed": "Husky Mix",
+        "status": "URGENT",
+        "archived": false,
+        "image": "images/dogs/dog-luna.jpg"
+    },
+    {
+        "name": "Finn",
+        "location": "San Diego, CA",
+        "organization": "Sunny Days Rescue",
+        "age": "1 year",
+        "gender": "Male",
+        "breed": "Labrador Retriever",
+        "status": "",
+        "archived": false,
+        "image": "images/dogs/dog-finn.jpg"
+    },
+    {
+        "name": "Buddy",
+        "location": "Orange County, CA",
+        "organization": "Puppy Love Shelter",
+        "age": "5 years",
+        "gender": "Male",
+        "breed": "Golden Retriever",
+        "status": "Adopted!",
+        "archived": true,
+        "image": "images/dogs/dog-buddy.jpg"
+    }
+]
