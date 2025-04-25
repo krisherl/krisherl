@@ -41,6 +41,9 @@ body {
 #social-links {
     margin-top: 20px;
 }
+#social-links a {
+    text-decoration: none;
+}
 #social-links a img {
     width: 30px;
     margin: 0 10px;
@@ -49,6 +52,26 @@ body {
 #social-links a img:hover {
     transform: scale(1.2);
     opacity: 0.8;
+}
+
+/* Contact Me Button Under Socials */
+#contact-button {
+    margin-top: 30px;
+}
+.button-gradient {
+    display: inline-block;
+    background: linear-gradient(to right, #a855f7, #06b6d4);
+    color: white;
+    padding: 12px 30px;
+    border-radius: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background 0.3s ease, transform 0.3s ease;
+    font-size: 1rem;
+}
+.button-gradient:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
 }
 
 /* Adoptable Dogs Section */
@@ -71,6 +94,7 @@ body {
     opacity: 0.03;
     transform: translate(-50%, -50%);
     pointer-events: none;
+    z-index: 0;
 }
 
 #dog-grid {
@@ -80,7 +104,7 @@ body {
     margin-top: 40px;
 }
 
-/* Dog Cards (dynamic) */
+/* Dog Cards */
 .dog-card {
     position: relative;
     background: white;
@@ -154,23 +178,6 @@ body {
     transform: scale(1.05);
 }
 
-.coming-soon p {
-    margin-top: 10px;
-    font-weight: bold;
-    font-size: 1.2rem;
-    color: white;
-}
-
-/* Contact Section */
-#contact {
-    padding: 100px 20px;
-}
-
-#contact h2 {
-    font-size: 2.5rem;
-    margin-bottom: 20px;
-}
-
 /* Footer */
 footer {
     background: #000;
@@ -187,7 +194,7 @@ footer a:hover {
     text-decoration: underline;
 }
 
-/* Animations */
+/* Fade-in Animations */
 .fade-in {
     opacity: 0;
     transform: translateY(30px);
