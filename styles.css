@@ -1,8 +1,9 @@
 /* Global Styles */
 body {
     background: url('images/background-texture.png') no-repeat center center fixed;
-    background-size: cover; /* Keeps it from stretching and pixelating */
-    background-color: #000; /* Fallback if image fails */
+    background-size: cover; /* Ensures image fills the screen without stretching */
+    background-position: center;
+    background-attachment: fixed;
     color: white;
     font-family: 'Montserrat', sans-serif;
     margin: 0;
@@ -26,10 +27,13 @@ body {
 #logo {
     width: 150px;
     margin-bottom: 10px;
+    display: block; /* Ensures logo is centered */
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #title-gradient-image {
-    width: 70%; /* Adjusted size of title */
+    width: 70%; /* Adjusted for proper scaling of the title */
     max-width: 600px;
     margin-top: 10px; /* Reduce spacing between logo and title */
 }
@@ -43,33 +47,21 @@ body {
     text-transform: uppercase;
 }
 
-/* Section Dividers */
-section {
-    margin-bottom: 50px;
-    position: relative;
-}
-
-section::after {
-    content: '';
-    display: block;
-    width: 80%;
-    height: 1px;
-    background-color: #a855f7; /* Gradient border color */
-    margin: 30px auto 0;
-}
-
 /* Social Links */
 #social-links {
     margin-top: 20px;
 }
+
 #social-links a {
     text-decoration: none;
 }
+
 #social-links a img {
     width: 50px;
     margin: 0 12px;
     transition: transform 0.3s ease, opacity 0.3s ease;
 }
+
 #social-links a img:hover {
     transform: scale(1.2);
     opacity: 0.8;
@@ -79,6 +71,7 @@ section::after {
 #contact-button {
     margin-top: 30px;
 }
+
 .button-outline {
     display: inline-block;
     border: 2px solid transparent;
@@ -93,6 +86,7 @@ section::after {
     text-decoration: none;
     transition: background 0.3s ease, color 0.3s ease;
 }
+
 .button-outline:hover {
     background: linear-gradient(to right, #a855f7, #06b6d4);
     color: black;
@@ -137,6 +131,7 @@ section::after {
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
 .dog-card:hover {
     transform: translateY(-8px);
     box-shadow: 0 8px 20px rgba(0,0,0,0.5);
@@ -155,6 +150,7 @@ section::after {
     font-size: 0.9rem;
     text-align: center;
 }
+
 .dog-card:hover .popup {
     opacity: 1;
     transform: translateY(0);
@@ -210,10 +206,12 @@ footer {
     font-size: 0.8rem;
     color: gray;
 }
+
 footer a {
     color: gray;
     text-decoration: none;
 }
+
 footer a:hover {
     text-decoration: underline;
 }
@@ -224,6 +222,7 @@ footer a:hover {
     transform: translateY(30px);
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
+
 .appear {
     opacity: 1;
     transform: translateY(0);
