@@ -1,8 +1,8 @@
 /* Global Styles */
 body {
-    background-color: #000;
+    background: linear-gradient(to bottom, #0a0a0a, #121212);
     color: white;
-    font-family: 'Arial', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     margin: 0;
     padding: 0;
 }
@@ -17,33 +17,35 @@ body {
 
 /* Hero Section */
 #hero {
-    padding: 100px 20px 40px;
+    padding: 80px 20px 40px;
 }
 
 #logo {
-    width: 160px;
-    margin-bottom: 20px;
+    width: 150px;
+    margin-bottom: 10px;
     animation: fadeIn 1s ease-out forwards;
 }
 
+/* Gradient Title */
 #title-gradient {
     font-size: 4rem;
-    font-weight: 800;
+    font-weight: 900;
     background: linear-gradient(to right, #a855f7, #06b6d4);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
     background-clip: text;
+    -webkit-background-clip: text;
     color: transparent;
-    margin-top: 20px;
+    -webkit-text-fill-color: transparent;
+    margin: 10px 0;
 }
 
 /* Hero Subheadline */
 #hero-subheadline {
-    font-size: 1.2rem;
-    margin-top: 10px;
+    font-size: 1rem;
+    margin-top: 5px;
     color: white;
     opacity: 0.7;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
 }
 
 /* Social Links */
@@ -54,8 +56,8 @@ body {
     text-decoration: none;
 }
 #social-links a img {
-    width: 30px;
-    margin: 0 10px;
+    width: 50px;
+    margin: 0 12px;
     transition: transform 0.3s ease, opacity 0.3s ease;
 }
 #social-links a img:hover {
@@ -69,20 +71,21 @@ body {
 }
 .button-outline {
     display: inline-block;
-    border: 2px solid #a855f7;
-    color: #a855f7;
+    border: 2px solid transparent;
+    border-image: linear-gradient(to right, #a855f7, #06b6d4) 1;
+    color: white;
     padding: 12px 30px;
     font-weight: bold;
     text-transform: uppercase;
     font-size: 0.9rem;
-    border-radius: 4px; /* Slightly rectangular, no curves */
+    border-radius: 4px;
     background: transparent;
     text-decoration: none;
     transition: background 0.3s ease, color 0.3s ease;
 }
 .button-outline:hover {
-    background: #a855f7;
-    color: white;
+    background: linear-gradient(to right, #a855f7, #06b6d4);
+    color: black;
 }
 
 /* Adoptable Dogs Section */
