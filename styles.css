@@ -19,25 +19,18 @@ body {
 
 /* Hero Section */
 #hero {
-    padding: 60px 20px 40px;
+    padding: 40px 20px 40px;
 }
 
 #logo {
     width: 150px;
     margin-bottom: 10px;
-    animation: fadeIn 1s ease-out forwards;
 }
 
-/* Gradient Title */
-#title-gradient {
-    font-size: 4rem;
-    font-weight: 900;
-    text-align: center;
-    background: linear-gradient(to right, #a855f7, #06b6d4);
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;
-    -webkit-text-fill-color: transparent;
+/* Title Image (Gradient Title as Image) */
+#title-gradient-image {
+    width: 100%; /* Adjust the width as needed */
+    max-width: 600px;
     margin-top: 10px;
 }
 
