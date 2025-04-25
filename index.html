@@ -1,129 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Krisherl</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    html {
-      scroll-behavior: smooth;
-    }
-    body {
-      background-color: black;
-      background-image: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.05), transparent 25%),
-                        repeating-linear-gradient(135deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px, transparent 1px, transparent 4px);
-      background-size: cover;
-      background-attachment: fixed;
-    }
-    .fade-in {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-    }
-    .fade-in.visible {
-      opacity: 1;
-      transform: none;
-    }
-    .logo-animate {
-      transition: transform 0.4s ease-in-out;
-    }
-    .logo-animate:hover {
-      transform: scale(1.05) rotate(1deg);
-    }
-    .divider {
-      height: 3px;
-      background: linear-gradient(to right, transparent, #7f5af0, #00f0ff, transparent);
-      border-radius: 9999px;
-      margin: 3rem auto;
-      width: 60%;
-      animation: pulse-divider 3s infinite ease-in-out;
-    }
-    @keyframes pulse-divider {
-      0%, 100% { opacity: 0.4; transform: scaleX(1); }
-      50% { opacity: 1; transform: scaleX(1.05); }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KRISHERL</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="scripts/dogs.js"></script>
 </head>
-<body class="text-white font-sans">
-
-  <!-- Header Logo -->
-  <header class="absolute top-6 left-6">
-    <img src="/images/KrisHerl_Logo_Transparent.png" alt="Krisherl Logo" class="h-12 w-auto logo-animate">
-  </header>
-
-  <!-- Hero Section -->
-  <section class="h-screen flex flex-col justify-center items-center text-center px-4">
-    <img src="/images/KrisHerl_Logo_Transparent.png" alt="Krisherl Logo" class="h-24 w-auto mb-6 logo-animate">
-    <h1 class="text-5xl font-extrabold tracking-widest uppercase text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-400">Krisherl</h1>
-    <p class="mt-4 text-xl text-gray-300">Digital marketing by trade, storytelling by heart.</p>
-    <a href="#projects" class="mt-8 inline-block px-6 py-3 border border-cyan-400 text-cyan-400 rounded hover:bg-cyan-400 hover:text-black transition">Explore My Work</a>
-  </section>
-
-  <!-- Animated Divider -->
-  <div class="divider"></div>
-
-  <!-- About Section -->
-  <section class="py-24 px-6 bg-gradient-to-b from-black to-purple-900">
-    <div class="max-w-3xl mx-auto fade-in" id="about">
-      <h2 class="text-3xl uppercase font-bold tracking-wide text-cyan-300 mb-6">About Me</h2>
-      <p class="text-lg text-gray-300">I'm Kris — a branding strategist, creative technologist, and digital chameleon. From SEO audits to storytelling and side projects, this is my world, all in one place.</p>
-    </div>
-  </section>
-
-  <!-- Animated Divider -->
-  <div class="divider"></div>
-
-  <!-- Projects Section -->
-  <section class="py-24 px-6 bg-black" id="projects">
-    <div class="max-w-5xl mx-auto fade-in">
-      <h2 class="text-3xl uppercase font-bold tracking-wide text-purple-400 mb-10">Featured Projects</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="bg-gray-900 p-6 rounded-xl border border-gray-700 hover:scale-105 transition duration-500 ease-in-out">
-          <h3 class="text-xl font-semibold text-cyan-300">Clothing Line</h3>
-          <p class="text-sm text-gray-400 mt-2">Streetwear meets storytelling — bold cuts, loud thoughts.</p>
+<body>
+    <!-- Hero Section -->
+    <section id="hero" class="fade-in">
+        <img src="images/Krisherl_Logo_Final.png" alt="Krisherl Logo" id="logo">
+        <h1 id="title-gradient">KRISHERL</h1>
+        <div id="social-links">
+            <a href="https://instagram.com/krisherl" target="_blank"><img src="images/social-instagram.png" alt="Instagram"></a>
+            <a href="https://tiktok.com/@krisherl" target="_blank"><img src="images/social-tiktok.png" alt="TikTok"></a>
+            <a href="https://facebook.com/krisherl" target="_blank"><img src="images/social-facebook.png" alt="Facebook"></a>
         </div>
-        <div class="bg-gray-900 p-6 rounded-xl border border-gray-700 hover:scale-105 transition duration-500 ease-in-out">
-          <h3 class="text-xl font-semibold text-cyan-300">Book Projects</h3>
-          <p class="text-sm text-gray-400 mt-2">Fantasy, justice, grief, rebellion — coming soon.</p>
+    </section>
+
+    <!-- Adoptable Dogs Section -->
+    <section id="dogs" class="fade-in">
+        <h2>ADOPTABLE DOGS</h2>
+        <div id="dog-grid"></div>
+        <button id="toggle-archive" class="button">View Past Dogs</button>
+    </section>
+
+    <!-- Upcoming Projects Section -->
+    <section id="projects" class="fade-in">
+        <h2>UPCOMING PROJECTS</h2>
+        <div id="projects-grid">
+            <div class="project coming-soon">
+                <img src="images/coming-soon-book.png" alt="Book Project">
+                <p>BOOK PROJECT</p>
+            </div>
+            <div class="project coming-soon">
+                <img src="images/coming-soon-client.png" alt="Client Work">
+                <p>CLIENT WORK</p>
+            </div>
+            <div class="project coming-soon">
+                <img src="images/coming-soon-shop.png" alt="Online Shop">
+                <p>ONLINE SHOP</p>
+            </div>
         </div>
-        <div class="bg-gray-900 p-6 rounded-xl border border-gray-700 hover:scale-105 transition duration-500 ease-in-out">
-          <h3 class="text-xl font-semibold text-cyan-300">Marketing & SEO</h3>
-          <p class="text-sm text-gray-400 mt-2">Digital strategies that actually work. And look good.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Animated Divider -->
-  <div class="divider"></div>
+    <!-- Contact Section -->
+    <section id="contact" class="fade-in">
+        <h2>LET'S CONNECT</h2>
+        <p>Email me directly at <a href="mailto:kris@krisherl.com">kris@krisherl.com</a></p>
+    </section>
 
-  <!-- Contact CTA -->
-  <section class="py-24 px-6 bg-gradient-to-b from-purple-900 to-black">
-    <div class="text-center fade-in">
-      <h2 class="text-2xl uppercase font-bold tracking-wide text-white">Let’s Connect</h2>
-      <p class="text-gray-400 mt-4">Got a project or just wanna say hi?</p>
-      <a href="#" class="mt-6 inline-block px-6 py-3 border border-purple-500 text-purple-300 rounded hover:bg-purple-500 hover:text-black transition">Contact Me</a>
-    </div>
-  </section>
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 KRISHERL. All rights reserved. | <a href="mailto:kris@krisherl.com">kris@krisherl.com</a> | Las Vegas, NV</p>
+    </footer>
 
-  <script>
-    const fadeEls = document.querySelectorAll('.fade-in');
-    const observer = new IntersectionObserver(entries => {
+    <script>
+    // Simple fade-in effect on scroll
+    const faders = document.querySelectorAll('.fade-in');
+    const appearOptions = {
+      threshold: 0.1
+    };
+    const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
+        if (!entry.isIntersecting) {
+          return;
+        } else {
+          entry.target.classList.add('appear');
+          appearOnScroll.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.1 });
-    fadeEls.forEach(el => observer.observe(el));
-  </script>
-
-  <!-- Footer -->
-  <footer class="text-center text-sm text-gray-500 py-8 border-t border-gray-800 bg-black">
-    <p>&copy; 2024 Krisherl. All rights reserved.</p>
-    <p class="mt-1">All content and designs are the intellectual property of Krisherl and may not be reproduced or distributed without permission.</p>
-  </footer>
-
+    }, appearOptions);
+    faders.forEach(fader => {
+      appearOnScroll.observe(fader);
+    });
+    </script>
 </body>
 </html>
