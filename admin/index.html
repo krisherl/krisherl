@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Portal - krisherl.com</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background-color: #000;
+            color: white;
+            margin: 0;
+            padding: 2rem;
+        }
+        .admin-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .password-form {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .password-input {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            margin-right: 1rem;
+            width: 200px;
+        }
+        .submit-button {
+            background: linear-gradient(to right, #A855F7, #06B6D4);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .submit-button:hover {
+            transform: translateY(-2px);
+        }
+        .error-message {
+            color: #ff4444;
+            margin-top: 1rem;
+            display: none;
+        }
+        .admin-content {
+            display: none;
+        }
+        .dog-form {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            border-radius: 4px;
+        }
+        .dogs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        .dog-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+        }
+        .dog-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .tab {
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .tab.active {
+            background: linear-gradient(to right, #A855F7, #06B6D4);
+        }
+        .google-signin-button {
+            background: #4285f4;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        .google-signin-button:hover {
+            background: #3367d6;
+        }
+        @font-face {
+            font-family: 'Montserrat';
+            src: url('https://fonts.gstatic.com/s/montserrat/v25/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCtr6Hw5aX8-p7K4KLg.woff2') format('woff2');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Montserrat';
+            src: url('https://fonts.gstatic.com/s/montserrat/v25/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCuM73w5aX8-p7K4KLg.woff2') format('woff2');
+            font-weight: 500;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Montserrat';
+            src: url('https://fonts.gstatic.com/s/montserrat/v25/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCtZ6Hw5aX8-p7K4KLg.woff2') format('woff2');
+            font-weight: 600;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Montserrat';
+            src: url('https://fonts.gstatic.com/s/montserrat/v25/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCuM73w5aX8-p7K4KLg.woff2') format('woff2');
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <div class="password-form" id="loginForm">
+            <h1>Admin Login</h1>
+            <input type="password" class="password-input" id="password" placeholder="Enter admin password">
+            <button class="submit-button" onclick="checkPassword()">Submit</button>
+            <p class="error-message" id="errorMessage">Incorrect password</p>
+        </div>
+
+        <div class="admin-content" id="adminContent">
+            <h1>Dog Management</h1>
+            
+            <div class="tabs">
+                <div class="tab active" onclick="switchTab('add')">Add New Dog</div>
+                <div class="tab" onclick="switchTab('current')">Current Dogs</div>
+                <div class="tab" onclick="switchTab('archived')">Archived Dogs</div>
+            </div>
+
+            <div id="addDogTab" class="dog-form">
+                <h2>Add New Dog</h2>
+                <form id="dogForm" onsubmit="handleSubmit(event)">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="location">Location</label>
+                        <input type="text" id="location" name="location" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="organization">Organization</label>
+                        <input type="text" id="organization" name="organization" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="age">Age</label>
+                        <input type="text" id="age" name="age" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="gender">Gender</label>
+                        <select id="gender" name="gender" required>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="breed">Breed</label>
+                        <input type="text" id="breed" name="breed" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="info">Additional Info</label>
+                        <textarea id="info" name="info" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <select id="status" name="status" required>
+                            <option value="Available">Available</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Adopted">Adopted</option>
+                            <option value="URGENT">URGENT</option>
+                            <option value="NEEDS A HOME!">NEEDS A HOME!</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="image">Image</label>
+                        <input type="file" id="image" name="image" accept="image/*" required>
+                        <small class="form-text">Upload a clear photo of the dog (max 5MB)</small>
+                    </div>
+                    <button type="submit">Add Dog</button>
+                </form>
+            </div>
+
+            <div id="currentDogsTab" class="dogs-grid" style="display: none;">
+                <h2>Current Dogs</h2>
+                <!-- Current dogs will be displayed here -->
+            </div>
+
+            <div id="archivedDogsTab" class="dogs-grid" style="display: none;">
+                <h2>Archived Dogs</h2>
+                <!-- Archived dogs will be displayed here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Airtable configuration
+        const AIRTABLE_API_KEY = 'patsbLBy7jhZyOH4v.9e1e7bd60b252166f5f476714d43e71b52e1f56dcb3b516c03c9ab59929f87e2';
+        const AIRTABLE_BASE_ID = 'app2MQot7bw8qRw8E';
+        const AIRTABLE_TABLE_NAME = 'Dogs';
+
+        // Password check
+        function checkPassword() {
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('errorMessage');
+            const loginForm = document.getElementById('loginForm');
+            const adminContent = document.getElementById('adminContent');
+            
+            if (password === 'Biebstincoop!') {
+                loginForm.style.display = 'none';
+                adminContent.style.display = 'block';
+                sessionStorage.setItem('adminLoggedIn', 'true');
+                loadDogs();
+            } else {
+                errorMessage.style.display = 'block';
+            }
+        }
+
+        // Tab switching
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelector(`.tab[onclick="switchTab('${tabName}')"]`).classList.add('active');
+            
+            document.getElementById('addDogTab').style.display = tabName === 'add' ? 'block' : 'none';
+            document.getElementById('currentDogsTab').style.display = tabName === 'current' ? 'block' : 'none';
+            document.getElementById('archivedDogsTab').style.display = tabName === 'archived' ? 'block' : 'none';
+        }
+
+        // Load dogs from Airtable
+        async function loadDogs() {
+            try {
+                const response = await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}`, {
+                    headers: {
+                        'Authorization': `Bearer ${AIRTABLE_API_KEY}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch dogs');
+                }
+
+                const data = await response.json();
+                console.log('Loaded dogs:', data);
+
+                const dogs = data.records.map(record => ({
+                    id: record.id,
+                    name: record.fields.Name || '',
+                    location: record.fields.Location || '',
+                    organization: record.fields.Organization || '',
+                    age: record.fields.Age || '',
+                    gender: record.fields.Gender || '',
+                    breed: record.fields.Breed || '',
+                    status: record.fields.Status || '',
+                    image: record.fields.Image?.[0]?.url || 'images/image-unavailable.png',
+                    timestamp: record.fields.Timestamp || new Date().toISOString()
+                }));
+
+                displayDogs(dogs);
+            } catch (error) {
+                console.error('Error loading dogs:', error);
+                displaySampleDogs();
+            }
+        }
+
+        // Display sample dogs
+        function displaySampleDogs() {
+            const dogs = [
+                {
+                    id: '',
+                    name: 'Sergeant',
+                    location: 'San Diego, CA',
+                    organization: 'The Animal Pad',
+                    age: '6 years',
+                    gender: 'Male',
+                    breed: 'Labrador Mix',
+                    status: 'NEEDS A HOME!',
+                    image: 'images/dogs/dog-sergeant.jpg',
+                    timestamp: new Date().toISOString()
+                },
+                {
+                    id: '',
+                    name: 'Finn',
+                    location: 'Las Vegas, NV',
+                    organization: 'Desert Paws Rescue',
+                    age: '1 year',
+                    gender: 'Male',
+                    breed: 'Golden Retriever Mix',
+                    status: 'URGENT',
+                    image: 'images/dogs/dog-finn.jpg',
+                    timestamp: new Date().toISOString()
+                }
+            ];
+            displayDogs(dogs);
+        }
+
+        // Display dogs in the grid
+        function displayDogs(dogs) {
+            const currentDogsGrid = document.getElementById('currentDogsTab');
+            const archivedDogsGrid = document.getElementById('archivedDogsTab');
+
+            // Clear existing content
+            currentDogsGrid.innerHTML = '<h2>Current Dogs</h2>';
+            archivedDogsGrid.innerHTML = '<h2>Archived Dogs</h2>';
+
+            dogs.forEach(dog => {
+                const dogCard = createDogCard(dog);
+                currentDogsGrid.appendChild(dogCard);
+            });
+        }
+
+        // Create a dog card element
+        function createDogCard(dog) {
+            const card = document.createElement('div');
+            card.className = 'dog-card';
+            card.innerHTML = `
+                <img src="${dog.image || 'images/image-unavailable.png'}" alt="${dog.name}">
+                <h3>${dog.name}</h3>
+                <p>Location: ${dog.location}</p>
+                <p>Organization: ${dog.organization}</p>
+                <p>Age: ${dog.age}</p>
+                <p>Gender: ${dog.gender}</p>
+                <p>Breed: ${dog.breed}</p>
+                <p>Status: ${dog.status}</p>
+                ${dog.info ? `<p>Info: ${dog.info}</p>` : ''}
+                <div class="card-actions">
+                    <button onclick="editDog('${dog.id}')" class="edit-button">Edit</button>
+                    <button onclick="deleteDog('${dog.id}')" class="delete-button">Delete</button>
+                </div>
+            `;
+            return card;
+        }
+
+        // Edit dog function
+        async function editDog(dogId) {
+            try {
+                const response = await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}/${dogId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${AIRTABLE_API_KEY}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch dog data');
+                }
+
+                const dogData = await response.json();
+                const fields = dogData.fields;
+
+                // Populate the form with current data
+                document.getElementById('name').value = fields.Name || '';
+                document.getElementById('location').value = fields.Location || '';
+                document.getElementById('organization').value = fields.Organization || '';
+                document.getElementById('age').value = fields.Age || '';
+                document.getElementById('gender').value = fields.Gender || '';
+                document.getElementById('breed').value = fields.Breed || '';
+                document.getElementById('status').value = fields.Status || '';
+                document.getElementById('info').value = fields.Info || '';
+
+                // For image, we'll show the current image URL in a read-only field
+                const imageInput = document.getElementById('image');
+                imageInput.required = false; // Make image optional for edits
+                imageInput.previousElementSibling.textContent = 'Image (Optional - Leave empty to keep current image)';
+
+                // Store the dog ID for updating
+                document.getElementById('dogForm').dataset.editId = dogId;
+
+                // Change form title and submit button
+                document.querySelector('#addDogTab h2').textContent = 'Edit Dog';
+                document.querySelector('#dogForm button[type="submit"]').textContent = 'Update Dog';
+
+                // Switch to the add/edit tab
+                switchTab('add');
+            } catch (error) {
+                console.error('Error fetching dog data:', error);
+                alert('Error fetching dog data: ' + error.message);
+            }
+        }
+
+        // Update handleSubmit function
+        async function handleSubmit(event) {
+            event.preventDefault();
+            
+            const form = event.target;
+            const formData = new FormData(form);
+            const imageFile = formData.get('image');
+            
+            try {
+                // Upload image first
+                const imageFormData = new FormData();
+                imageFormData.append('file', imageFile);
+                
+                const imageResponse = await fetch('/.netlify/functions/upload-image', {
+                    method: 'POST',
+                    body: imageFormData
+                });
+                
+                if (!imageResponse.ok) {
+                    const errorText = await imageResponse.text();
+                    console.error('Image upload error:', errorText);
+                    throw new Error('Failed to upload image: ' + errorText);
+                }
+                
+                const { imageUrl } = await imageResponse.json();
+                
+                // Create dog record with image URL
+                const dogData = {
+                    Name: formData.get('name'),
+                    Location: formData.get('location'),
+                    Organization: formData.get('organization'),
+                    Age: formData.get('age'),
+                    Gender: formData.get('gender'),
+                    Breed: formData.get('breed'),
+                    Status: formData.get('status'),
+                    Info: formData.get('info'),
+                    Image: [{ url: imageUrl }],
+                    Active: true
+                };
+                
+                const response = await fetch('/.netlify/functions/create-dog', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(dogData)
+                });
+                
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error('Create dog error:', errorText);
+                    throw new Error('Failed to create dog record: ' + errorText);
+                }
+                
+                alert('Dog added successfully!');
+                form.reset();
+                loadDogs(); // Refresh the dogs list
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error adding dog: ' + error.message);
+            }
+        }
+
+        // Delete dog function
+        async function deleteDog(dogId) {
+            if (!confirm('Are you sure you want to delete this dog?')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}/${dogId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${AIRTABLE_API_KEY}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to delete dog');
+                }
+
+                alert('Dog deleted successfully!');
+                loadDogs();
+            } catch (error) {
+                console.error('Error deleting dog:', error);
+                alert('Error deleting dog: ' + error.message);
+            }
+        }
+    </script>
+</body>
+</html>

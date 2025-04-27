@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: data: 'unsafe-inline' 'unsafe-eval'; img-src 'self' https: data:; font-src 'self' https: data:;">
+    <title>Admin Portal - krisherl.com</title>
+    <script src="https://apis.google.com/js/api.js"></script>
+    <script src="https://accounts.google.com/gsi/client"></script>
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #000;
+            color: white;
+            margin: 0;
+            padding: 2rem;
+        }
+        .admin-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .password-form {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .password-input {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            margin-right: 1rem;
+            width: 200px;
+        }
+        .submit-button {
+            background: linear-gradient(to right, #A855F7, #06B6D4);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .submit-button:hover {
+            transform: translateY(-2px);
+        }
+        .error-message {
+            color: #ff4444;
+            margin-top: 1rem;
+            display: none;
+        }
+        .admin-content {
+            display: none;
+        }
+        .dog-form {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            border-radius: 4px;
+        }
+        .dogs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        .dog-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            position: relative;
+        }
+        .dog-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+        .dog-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .edit-form {
+            display: none;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+        }
+        .edit-form.active {
+            display: block;
+        }
+        .delete-button {
+            background: #ff4444;
+        }
+        .edit-button {
+            background: #06B6D4;
+        }
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .tab {
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .tab.active {
+            background: linear-gradient(to right, #A855F7, #06B6D4);
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <div class="password-form" id="loginForm">
+            <h1>Admin Login</h1>
+            <input type="password" class="password-input" id="password" placeholder="Enter admin password" autocomplete="current-password">
+            <button class="submit-button" onclick="checkPassword()">Submit</button>
+            <p class="error-message" id="errorMessage">Incorrect password</p>
+        </div>
+
+        <div class="admin-content" id="adminContent" style="display: none;">
+            <h1>Dog Management</h1>
+            
+            <div class="tabs">
+                <div class="tab active" onclick="switchTab('add')">Add New Dog</div>
+                <div class="tab" onclick="switchTab('current')">Current Dogs</div>
+                <div class="tab" onclick="switchTab('archived')">Archived Dogs</div>
+            </div>
+
+            <div id="addDogTab" class="dog-form">
+                <h2>Add New Dog</h2>
+                <form id="dogForm" onsubmit="handleSubmit(event)">
+                    <div class="form-group">
+                        <label for="name">Dog's Name</label>
+                        <input type="text" id="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="location">Location</label>
+                        <input type="text" id="location" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="organization">Organization</label>
+                        <input type="text" id="organization" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="age">Age</label>
+                        <input type="text" id="age" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="gender">Gender</label>
+                        <select id="gender" required>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="breed">Breed</label>
+                        <input type="text" id="breed" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <input type="text" id="status" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="image">Dog's Photo</label>
+                        <input type="file" id="image" accept="image/*" required>
+                    </div>
+                    <button type="submit" class="submit-button">Add Dog</button>
+                </form>
+            </div>
+
+            <div id="currentDogsTab" class="dogs-grid" style="display: none;">
+                <h2>Current Dogs</h2>
+                <!-- Current dogs will be displayed here -->
+            </div>
+
+            <div id="archivedDogsTab" class="dogs-grid" style="display: none;">
+                <h2>Archived Dogs</h2>
+                <!-- Archived dogs will be displayed here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Google Sheets API configuration
+        const SPREADSHEET_ID = '14o95cEZpVHEpkSxI9jBEHCrcZNkDfbUp7hNP2UmqCrA';
+        const API_KEY = 'AIzaSyBgBMuiA2x8Io766pqfOXvD664D0yFlHjQ';
+        const CLIENT_ID = '455485800649-14u9p7bmlffhcaskvl677ontfcu946rp.apps.googleusercontent.com';
+
+        // Initialize Google API
+        function initGoogleAPI() {
+            return new Promise((resolve, reject) => {
+                gapi.load('client:auth2', () => {
+                    gapi.client.init({
+                        apiKey: API_KEY,
+                        clientId: CLIENT_ID,
+                        discoveryDocs: ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
+                        scope: 'https://www.googleapis.com/auth/spreadsheets'
+                    }).then(() => {
+                        console.log('Google API initialized successfully');
+                        resolve();
+                    }).catch(error => {
+                        console.error('Error initializing Google API:', error);
+                        reject(error);
+                    });
+                });
+            });
+        }
+
+        // Password check
+        async function checkPassword() {
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('errorMessage');
+            const loginForm = document.getElementById('loginForm');
+            const adminContent = document.getElementById('adminContent');
+            
+            if (password === 'Biebstincoop!') {
+                try {
+                    await initGoogleAPI();
+                    loginForm.style.display = 'none';
+                    adminContent.style.display = 'block';
+                    sessionStorage.setItem('adminLoggedIn', 'true');
+                    loadDogs();
+                } catch (error) {
+                    console.error('Failed to initialize Google API:', error);
+                    alert('Failed to initialize. Please try again.');
+                }
+            } else {
+                errorMessage.style.display = 'block';
+            }
+        }
+
+        // Load dogs from Google Sheets
+        async function loadDogs() {
+            try {
+                console.log('Loading dogs from Google Sheets...');
+                const response = await gapi.client.sheets.spreadsheets.values.get({
+                    spreadsheetId: SPREADSHEET_ID,
+                    range: 'Sheet1!A2:K'
+                });
+
+                console.log('Google Sheets response:', response);
+
+                if (!response.result.values) {
+                    console.log('No dogs found in the sheet');
+                    return;
+                }
+
+                const dogs = response.result.values.map(row => ({
+                    id: row[0],
+                    name: row[1],
+                    location: row[2],
+                    organization: row[3],
+                    age: row[4],
+                    gender: row[5],
+                    breed: row[6],
+                    status: row[7],
+                    image: row[8],
+                    active: row[9],
+                    timestamp: row[10]
+                }));
+
+                displayDogs(dogs);
+            } catch (error) {
+                console.error('Error loading dogs:', error);
+                alert('Failed to load dogs. Please try again later.');
+            }
+        }
+
+        // Display dogs
+        function displayDogs(dogs) {
+            const currentDogs = dogs.filter(dog => dog.active === 'TRUE');
+            const archivedDogs = dogs.filter(dog => dog.active === 'FALSE');
+            
+            const currentDogsContainer = document.getElementById('currentDogsTab');
+            const archivedDogsContainer = document.getElementById('archivedDogsTab');
+            
+            // Clear existing content
+            currentDogsContainer.innerHTML = '<h2>Current Dogs</h2>';
+            archivedDogsContainer.innerHTML = '<h2>Archived Dogs</h2>';
+            
+            // Display current dogs
+            currentDogs.forEach(dog => {
+                const dogCard = createDogCard(dog);
+                currentDogsContainer.appendChild(dogCard);
+            });
+            
+            // Display archived dogs
+            archivedDogs.forEach(dog => {
+                const dogCard = createDogCard(dog);
+                archivedDogsContainer.appendChild(dogCard);
+            });
+        }
+
+        function createDogCard(dog) {
+            const card = document.createElement('div');
+            card.className = 'dog-card';
+            card.innerHTML = `
+                <img src="${dog.image}" alt="${dog.name}">
+                <h3>${dog.name}</h3>
+                <p>Location: ${dog.location}</p>
+                <p>Organization: ${dog.organization}</p>
+                <p>Age: ${dog.age}</p>
+                <p>Gender: ${dog.gender}</p>
+                <p>Breed: ${dog.breed}</p>
+                <p>Status: ${dog.status}</p>
+                <div class="dog-actions">
+                    <button class="edit-button" onclick="toggleEditForm('${dog.id}')">Edit</button>
+                    <button class="delete-button" onclick="deleteDog('${dog.id}')">Delete</button>
+                    <button class="archive-button" onclick="archiveDog('${dog.id}')">Archive</button>
+                </div>
+                <div id="edit-form-${dog.id}" class="edit-form">
+                    <form onsubmit="handleEdit('${dog.id}')">
+                        <input type="text" name="name" value="${dog.name}" required>
+                        <input type="text" name="location" value="${dog.location}" required>
+                        <input type="text" name="organization" value="${dog.organization}" required>
+                        <input type="text" name="age" value="${dog.age}" required>
+                        <select name="gender" required>
+                            <option value="Male" ${dog.gender === 'Male' ? 'selected' : ''}>Male</option>
+                            <option value="Female" ${dog.gender === 'Female' ? 'selected' : ''}>Female</option>
+                        </select>
+                        <input type="text" name="breed" value="${dog.breed}" required>
+                        <input type="text" name="status" value="${dog.status}" required>
+                        <button type="submit">Save Changes</button>
+                    </form>
+                </div>
+            `;
+            return card;
+        }
+
+        // Tab switching
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelector(`.tab[onclick="switchTab('${tabName}')"]`).classList.add('active');
+            
+            document.getElementById('addDogTab').style.display = tabName === 'add' ? 'block' : 'none';
+            document.getElementById('currentDogsTab').style.display = tabName === 'current' ? 'block' : 'none';
+            document.getElementById('archivedDogsTab').style.display = tabName === 'archived' ? 'block' : 'none';
+        }
+
+        // Toggle edit form
+        function toggleEditForm(dogId) {
+            const form = document.getElementById(`edit-form-${dogId}`);
+            form.classList.toggle('active');
+        }
+
+        // Handle edit
+        async function handleEdit(dogId) {
+            const form = document.getElementById(`edit-form-${dogId}`);
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+            
+            try {
+                // First, find the row number for this dog
+                const response = await gapi.client.sheets.spreadsheets.values.get({
+                    spreadsheetId: SPREADSHEET_ID,
+                    range: 'Sheet1!A2:K',
+                });
+
+                const rows = response.result.values;
+                const rowIndex = rows.findIndex(row => row[0] === dogId) + 2;
+
+                if (rowIndex === 1) {
+                    throw new Error('Dog not found');
+                }
+
+                const updatedRow = [
+                    dogId,
+                    data.name,
+                    data.location,
+                    data.organization,
+                    data.age,
+                    data.gender,
+                    data.breed,
+                    data.status,
+                    rows[rowIndex - 2][8], // Keep existing image
+                    'TRUE',
+                    new Date().toISOString()
+                ];
+
+                await gapi.client.sheets.spreadsheets.values.update({
+                    spreadsheetId: SPREADSHEET_ID,
+                    range: `Sheet1!A${rowIndex}:K${rowIndex}`,
+                    valueInputOption: 'RAW',
+                    resource: {
+                        values: [updatedRow]
+                    }
+                });
+
+                alert('Dog updated successfully!');
+                loadDogs();
+            } catch (error) {
+                console.error('Error updating dog:', error);
+                alert('Failed to update dog. Please try again later.');
+            }
+        }
+
+        // Delete dog
+        async function deleteDog(dogId) {
+            if (!confirm('Are you sure you want to delete this dog?')) {
+                return;
+            }
+            
+            try {
+                // First, find the row number for this dog
+                const response = await gapi.client.sheets.spreadsheets.values.get({
+                    spreadsheetId: SPREADSHEET_ID,
+                    range: 'Sheet1!A2:K',
+                });
+
+                const rows = response.result.values;
+                const rowIndex = rows.findIndex(row => row[0] === dogId) + 2;
+
+                if (rowIndex === 1) {
+                    throw new Error('Dog not found');
+                }
+
+                // Update the row to mark as inactive
+                await gapi.client.sheets.spreadsheets.values.update({
+                    spreadsheetId: SPREADSHEET_ID,
+                    range: `Sheet1!J${rowIndex}`,
+                    valueInputOption: 'RAW',
+                    resource: {
+                        values: [['FALSE']]
+                    }
+                });
+
+                alert('Dog deleted successfully!');
+                loadDogs();
+            } catch (error) {
+                console.error('Error deleting dog:', error);
+                alert('Failed to delete dog. Please try again later.');
+            }
+        }
+
+        // Archive dog
+        async function archiveDog(dogId) {
+            try {
+                // First, find the row number for this dog
+                const response = await gapi.client.sheets.spreadsheets.values.get({
+                    spreadsheetId: SPREADSHEET_ID,
+                    range: 'Sheet1!A2:K',
+                });
+
+                const rows = response.result.values;
+                const rowIndex = rows.findIndex(row => row[0] === dogId) + 2;
+
+                if (rowIndex === 1) {
+                    throw new Error('Dog not found');
+                }
+
+                // Update the row to mark as inactive
+                await gapi.client.sheets.spreadsheets.values.update({
+                    spreadsheetId: SPREADSHEET_ID,
+                    range: `Sheet1!J${rowIndex}`,
+                    valueInputOption: 'RAW',
+                    resource: {
+                        values: [['FALSE']]
+                    }
+                });
+
+                alert('Dog archived successfully!');
+                loadDogs();
+            } catch (error) {
+                console.error('Error archiving dog:', error);
+                alert('Failed to archive dog. Please try again later.');
+            }
+        }
+
+        // Handle form submission
+        async function handleSubmit(event) {
+            event.preventDefault();
+            
+            const submitButton = event.target.querySelector('button[type="submit"]');
+            const originalButtonText = submitButton.textContent;
+            submitButton.textContent = 'Uploading...';
+            submitButton.disabled = true;
+
+            try {
+                // Get form data
+                const formData = {
+                    name: document.getElementById('name').value,
+                    location: document.getElementById('location').value,
+                    organization: document.getElementById('organization').value,
+                    age: document.getElementById('age').value,
+                    gender: document.getElementById('gender').value,
+                    breed: document.getElementById('breed').value,
+                    status: document.getElementById('status').value
+                };
+
+                // Handle image upload
+                const imageFile = document.getElementById('image').files[0];
+                if (!imageFile) {
+                    throw new Error('Please select an image');
+                }
+
+                // Convert image to base64
+                const imageBase64 = await new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(reader.result);
+                    reader.onerror = error => reject(error);
+                    reader.readAsDataURL(imageFile);
+                });
+
+                // Prepare row data
+                const newRow = [
+                    Date.now().toString(), // id
+                    formData.name,
+                    formData.location,
+                    formData.organization,
+                    formData.age,
+                    formData.gender,
+                    formData.breed,
+                    formData.status,
+                    imageBase64,
+                    'TRUE', // active
+                    new Date().toISOString() // timestamp
+                ];
+
+                console.log('Attempting to append row to sheet:', newRow);
+
+                // Append row to Google Sheet
+                const response = await gapi.client.sheets.spreadsheets.values.append({
+                    spreadsheetId: SPREADSHEET_ID,
+                    range: 'Sheet1!A:K',
+                    valueInputOption: 'RAW',
+                    insertDataOption: 'INSERT_ROWS',
+                    resource: {
+                        values: [newRow]
+                    }
+                });
+
+                console.log('Sheet API response:', response);
+
+                if (response.status !== 200) {
+                    throw new Error('Failed to add dog to sheet');
+                }
+
+                alert('Dog added successfully!');
+                document.getElementById('dogForm').reset();
+                loadDogs();
+            } catch (error) {
+                console.error('Error details:', error);
+                alert(`Error adding dog: ${error.message}`);
+            } finally {
+                submitButton.textContent = originalButtonText;
+                submitButton.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html> 

@@ -1,0 +1,21 @@
+[build]
+  functions = "netlify/functions"
+  publish = "public"
+
+[[redirects]]
+  from = "/admin/*"
+  to = "/admin/index.html"
+  status = 200
+  force = true
+
+[build.environment]
+  NODE_VERSION = "18"
+
+[functions]
+  node_bundler = "esbuild"
+  external_node_modules = ["fs", "path"]
+
+[[redirects]]
+  from = "/.netlify/images/*"
+  to = "/.netlify/functions/serve-image/:splat"
+  status = 200 

@@ -1,0 +1,257 @@
+const fs = require('fs');
+const path = require('path');
+
+// Get all dogs
+function getDogs() {
+    try {
+        const dataPath = path.join(process.cwd(), 'data', 'dogs.json');
+        console.log('Reading from:', dataPath);
+        
+        // Ensure the data directory exists
+        const dataDir = path.dirname(dataPath);
+        if (!fs.existsSync(dataDir)) {
+            fs.mkdirSync(dataDir, { recursive: true });
+        }
+        
+        if (!fs.existsSync(dataPath)) {
+            // Create the file if it doesn't exist
+            fs.writeFileSync(dataPath, JSON.stringify({ dogs: [] }));
+            return [];
+        }
+        
+        const data = fs.readFileSync(dataPath, 'utf8');
+        return JSON.parse(data).dogs;
+    } catch (error) {
+        console.error('Error reading dogs data:', error);
+        return [];
+    }
+}
+
+// Save dogs
+function saveDogs(dogs) {
+    try {
+        const dataPath = path.join(process.cwd(), 'data', 'dogs.json');
+        console.log('Writing to:', dataPath);
+        
+        // Ensure the data directory exists
+        const dataDir = path.dirname(dataPath);
+        if (!fs.existsSync(dataDir)) {
+            fs.mkdirSync(dataDir, { recursive: true });
+        }
+        
+        fs.writeFileSync(dataPath, JSON.stringify({ dogs }, null, 2));
+    } catch (error) {
+        console.error('Error saving dogs data:', error);
+        throw error;
+    }
+}
+
+// Save uploaded image
+async function saveImage(base64Data, filename) {
+    // For now, we'll just return the base64 data as the image URL
+    return base64Data;
+}
+
+// Delete image file
+function deleteImage(imagePath) {
+    // No-op for now since we're not actually storing files
+}
+
+exports.handler = async function(event, context) {
+    console.log('Received event:', {
+        httpMethod: event.httpMethod,
+        path: event.path,
+        body: event.body ? JSON.parse(event.body) : null
+    });
+
+    const { httpMethod, path, body } = event;
+    const pathParts = path.split('/');
+    const dogId = pathParts[pathParts.length - 2];
+
+    try {
+        switch (httpMethod) {
+            case 'GET':
+                const dogs = getDogs();
+                return {
+                    statusCode: 200,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': '*'
+                    },
+                    body: JSON.stringify(dogs)
+                };
+
+            case 'POST':
+                if (path.endsWith('/archive')) {
+                    const dogs = getDogs();
+                    const dog = dogs.find(d => d.id === dogId);
+                    
+                    if (dog) {
+                        dog.active = false;
+                        saveDogs(dogs);
+                        return {
+                            statusCode: 200,
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Access-Control-Allow-Origin': '*'
+                            },
+                            body: JSON.stringify({ success: true })
+                        };
+                    } else {
+                        return {
+                            statusCode: 404,
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Access-Control-Allow-Origin': '*'
+                            },
+                            body: JSON.stringify({ error: 'Dog not found' })
+                        };
+                    }
+                } else if (path.endsWith('/delete')) {
+                    const dogs = getDogs();
+                    const dogIndex = dogs.findIndex(d => d.id === dogId);
+                    
+                    if (dogIndex !== -1) {
+                        dogs.splice(dogIndex, 1);
+                        saveDogs(dogs);
+                        return {
+                            statusCode: 200,
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Access-Control-Allow-Origin': '*'
+                            },
+                            body: JSON.stringify({ success: true })
+                        };
+                    } else {
+                        return {
+                            statusCode: 404,
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Access-Control-Allow-Origin': '*'
+                            },
+                            body: JSON.stringify({ error: 'Dog not found' })
+                        };
+                    }
+                } else if (path.endsWith('/edit')) {
+                    const data = JSON.parse(body);
+                    const dogs = getDogs();
+                    const dogIndex = dogs.findIndex(d => d.id === dogId);
+                    
+                    if (dogIndex === -1) {
+                        return {
+                            statusCode: 404,
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Access-Control-Allow-Origin': '*'
+                            },
+                            body: JSON.stringify({ error: 'Dog not found' })
+                        };
+                    }
+
+                    const updatedDog = { ...dogs[dogIndex] };
+                    
+                    // Update fields
+                    updatedDog.name = data.name;
+                    updatedDog.location = data.location;
+                    updatedDog.organization = data.organization;
+                    updatedDog.age = data.age;
+                    updatedDog.gender = data.gender;
+                    updatedDog.breed = data.breed;
+                    updatedDog.status = data.status;
+
+                    // Handle image update if provided
+                    if (data.image) {
+                        updatedDog.image = data.image;
+                    }
+
+                    dogs[dogIndex] = updatedDog;
+                    saveDogs(dogs);
+                    
+                    return {
+                        statusCode: 200,
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Access-Control-Allow-Origin': '*'
+                        },
+                        body: JSON.stringify(updatedDog)
+                    };
+                } else {
+                    // Handle new dog creation
+                    const data = JSON.parse(body);
+                    
+                    // Validate required fields
+                    const requiredFields = ['name', 'location', 'organization', 'age', 'gender', 'breed', 'status', 'image'];
+                    const missingFields = requiredFields.filter(field => !data[field]);
+                    if (missingFields.length > 0) {
+                        return {
+                            statusCode: 400,
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Access-Control-Allow-Origin': '*'
+                            },
+                            body: JSON.stringify({ error: `Missing required fields: ${missingFields.join(', ')}` })
+                        };
+                    }
+                    
+                    const dogs = getDogs();
+                    const newDog = {
+                        id: Date.now().toString(),
+                        name: data.name,
+                        location: data.location,
+                        organization: data.organization,
+                        age: data.age,
+                        gender: data.gender,
+                        breed: data.breed,
+                        status: data.status,
+                        image: data.image,
+                        active: true,
+                        createdAt: new Date().toISOString()
+                    };
+
+                    // If we already have 4 active dogs, archive the oldest one
+                    const activeDogs = dogs.filter(dog => dog.active);
+                    if (activeDogs.length >= 4) {
+                        const oldestDog = activeDogs.reduce((oldest, current) => {
+                            return new Date(current.createdAt) < new Date(oldest.createdAt) ? current : oldest;
+                        });
+                        oldestDog.active = false;
+                    }
+
+                    dogs.push(newDog);
+                    saveDogs(dogs);
+                    
+                    return {
+                        statusCode: 200,
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Access-Control-Allow-Origin': '*'
+                        },
+                        body: JSON.stringify(newDog)
+                    };
+                }
+
+            default:
+                return {
+                    statusCode: 405,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': '*'
+                    },
+                    body: JSON.stringify({ error: 'Method not allowed' })
+                };
+        }
+    } catch (error) {
+        console.error('Error in handler:', error);
+        return {
+            statusCode: 500,
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
+            body: JSON.stringify({ 
+                error: 'Internal server error',
+                details: error.message 
+            })
+        };
+    }
+}; 

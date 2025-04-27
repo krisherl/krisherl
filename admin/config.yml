@@ -1,0 +1,24 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "images/dogs"
+public_folder: "/images/dogs"
+
+collections:
+  - name: "dogs"
+    label: "Dogs"
+    folder: "content/dogs"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - {label: "Name", name: "name", widget: "string"}
+      - {label: "Location", name: "location", widget: "string"}
+      - {label: "Organization", name: "organization", widget: "string"}
+      - {label: "Age", name: "age", widget: "string"}
+      - {label: "Gender", name: "gender", widget: "select", options: ["Male", "Female"]}
+      - {label: "Breed", name: "breed", widget: "string"}
+      - {label: "Status", name: "status", widget: "select", options: ["NEEDS A HOME!", "URGENT", "ADOPTED!"]}
+      - {label: "Image", name: "image", widget: "image", required: false}
+      - {label: "Active", name: "active", widget: "boolean", default: true}
+      - {label: "Body", name: "body", widget: "markdown"} 
